@@ -48,7 +48,6 @@ const verifyJWT = async (req, res, next) => {
     // console.log(decoded);
     next();
   } catch (err) {
-    // console.log(err);
     return res.status(401).send({ message: "Unauthorized Access!", err });
   }
 };
@@ -66,12 +65,11 @@ const client = new MongoClient(url, {
 
 async function run() {
   try {
-    //db collection: clubsCollection
     const db = client.db("clubsdb");
-    const clubsCollection = db.collection("clubs"); // plantsCollection
-    const eventsCollection = db.collection("events"); // plantsCollection
-    const eventsRegistrationCollection = db.collection("eventsRegistration"); // plantsCollection
-    const membershipsCollection = db.collection("memberships"); // ordersCollection
+    const clubsCollection = db.collection("clubs");
+    const eventsCollection = db.collection("events");
+    const eventsRegistrationCollection = db.collection("eventsRegistration");
+    const membershipsCollection = db.collection("memberships");
     const paymentsCollection = db.collection("payments");
     const userCollection = db.collection("users");
     //!=============Role Middleware===========!//
