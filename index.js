@@ -311,7 +311,7 @@ async function run() {
       res.send(result);
     });
 
-    app.get("/users/stats", async (req, res) => {
+    app.get("/admin/stats", async (req, res) => {
       // const collections = [
       //   db.collection("clubs"),
       //   db.collection("events"),
