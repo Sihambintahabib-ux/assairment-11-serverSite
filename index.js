@@ -23,18 +23,19 @@ admin.initializeApp({
 
 const app = express();
 // middleware
-app.use(
-  cors({
-    origin: [
-      process.env.CLIENT_URL,
-      // "http://localhost:5173",
-      // "http://localhost:5174",
-      // "https://b12-m11-session.web.app",
-    ],
-    credentials: true,
-    optionSuccessStatus: 200,
-  })
-);
+// app.use(
+//   cors({
+//     origin: [
+//       process.env.CLIENT_URL,
+//       // "http://localhost:5173",
+//       // "http://localhost:5174",
+//       // "https://b12-m11-session.web.app",
+//     ],
+//     // credentials: true,
+//     // optionSuccessStatus: 200,
+//   })
+// );
+app.use(cors());
 app.use(express.json());
 
 // jwt middlewares
@@ -284,7 +285,109 @@ async function run() {
     // });
 
     //!=============end===========!//
+    // verifyJWT, verifyManager,
+    //!============= statistics ===========!//
 
+    app.get("/clubs/stats", async (req, res) => {
+      const clubData = req.body; //plantsdata =1.5
+      // console.log(clubData);
+      const piping = [
+        // {
+        //   $group: {
+        //     _id: "$status",
+        //     totalCount: { $sum: 1 },
+        //   },
+        // },
+        // // {
+        // //   $match: {
+        // //     _id: "$managerEmail",
+        // //     status: "approved",
+        // //     // totalCount: { $sum: 1 },
+        // //   },
+        // // },
+        //*
+      ];
+      const result = await clubsCollection.aggregate(piping).toArray();
+      res.send(result);
+    });
+
+    app.get("/users/stats", async (req, res) => {
+      // const collections = [
+      //   db.collection("clubs"),
+      //   db.collection("events"),
+      //   db.collection("eventsRegistration"),
+      //   db.collection("memberships"),
+      //   db.collection("payments"),
+      //   db.collection("users"),
+      // ];
+
+      // try {
+      //   const counts = await Promise.all(
+      //     collections.map((col) => col.countDocuments({}))
+      //   );
+
+      //   const total = counts.reduce((sum, count) => sum + count, 0);
+
+      //   res.json({ totalDocuments: total });
+      // } catch (err) {
+      //   res.status(500).json({ error: err.message });
+      // }
+      try {
+        const [
+          clubsCount,
+          eventsCount,
+          eventsRegCount,
+          membershipsCount,
+          paymentsCount,
+          usersCount,
+        ] = await Promise.all([
+          clubsCollection.countDocuments({}),
+          eventsCollection.countDocuments({}),
+          eventsRegistrationCollection.countDocuments({}),
+          membershipsCollection.countDocuments({}),
+          paymentsCollection.countDocuments({}),
+          userCollection.countDocuments({}),
+        ]);
+
+        const counts = {
+          clubs: clubsCount,
+          events: eventsCount,
+          eventsRegistration: eventsRegCount,
+          memberships: membershipsCount,
+          payments: paymentsCount,
+          users: usersCount,
+          total:
+            clubsCount +
+            eventsCount +
+            eventsRegCount +
+            membershipsCount +
+            paymentsCount +
+            usersCount,
+        };
+
+        res.json(counts);
+      } catch (err) {
+        console.error("Error fetching counts:", err);
+        res
+          .status(500)
+          .json({ error: "Failed to fetch counts", message: err.message });
+      }
+    });
+
+    // app.get("/memberships/stats", async (req, res) => {
+    //   const clubData = req.body; //plantsdata =1.5
+    //   // console.log(clubData);
+    //   const piping = [
+    //     {
+    //       $group: {
+    //         _id: "$transactionId",
+    //         totalCount: { $sum: 1 },
+    //       },
+    //     },
+    //   ];
+    //   const result = await membershipsCollection.aggregate(piping).toArray();
+    //   res.send(result);
+    // });
     //!============= search filter sort ===========!//
     //!============= search  ===========!//
     //* club search :
