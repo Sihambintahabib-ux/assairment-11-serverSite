@@ -1,8 +1,8 @@
-Github serverSite :  https://github.com/Sihambintahabib-ux/assairment-11-clientsite.git
-Github clientSite :  https://github.com/Sihambintahabib-ux/assairment-11-clientsite.git
-live link : http://sihambintahabib-assairment11.surge.sh/
-Admin Gmail : admin@gmail.com
-Admin Password : admin@gmail.com
+Github serverSite :  https://github.com/Sihambintahabib-ux/assairment-11-clientsite.git <br>
+Github clientSite :  https://github.com/Sihambintahabib-ux/assairment-11-clientsite.git <br>
+live link : http://sihambintahabib-assairment11.surge.sh/ <br>
+Admin Gmail : admin@gmail.com <br>
+Admin Password : admin@gmail.com <br>
 
 ## Backend installed
 
